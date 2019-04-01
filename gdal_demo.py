@@ -4,7 +4,7 @@ import numpy as np
 import pandas as pd
 
 # Path to the raster file
-cdl_path = os.path.join("..", "GIS", "nass_de", "cdl_30m_r_de_2016_utm18.tif")
+cdl_path = os.path.join("GIS", "nass_de", "cdl_30m_r_de_2016_utm18.tif")
 
 # Open the file
 cdl_raster = gdal.Open(cdl_path)
@@ -27,7 +27,7 @@ print(sample)
 print(sample.shape)
 
 # Return the area for the land cover classes
-cdl_table = pd.read_csv(os.path.join("..", "GIS", "cdl_classes.csv")).set_index('cdl')
+cdl_table = pd.read_csv(os.path.join("GIS", "cdl_classes.csv")).set_index('cdl')
 class_counts = np.array(np.unique(sample, return_counts=True)).T
 class_table = pd.DataFrame(class_counts, columns=['cdl', 'pixels']).set_index('cdl')
 class_table = class_table.merge(cdl_table, left_index=True, right_index=True)
@@ -36,7 +36,7 @@ class_table['pct'] = (class_table.area / (x_max * y_max)) * 100
 print(class_table.sort_values('pct', ascending=False))
 
 # Write the array to a new raster
-out_path = os.path.join("..", "GIS", "test_square.tif")
+out_path = os.path.join("GIS", "test_square.tif")
 driver = cdl_raster.GetDriver()
 out_raster = driver.Create(out_path, int(x_max / cell_size), int(y_max / cell_size), 1, gdal.GDT_Int32)
 out_raster.SetGeoTransform((left + x_offset, cell_size, 0, top - y_offset, 0, -cell_size))

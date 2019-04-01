@@ -48,7 +48,7 @@ def make_tiles(x_size, y_size, tile_size):
 
 
 # Path to the raster file
-cdl_path = os.path.join("..", "GIS", "nass_de", "cdl_30m_r_de_2016_utm18.tif")
+cdl_path = os.path.join("GIS", "nass_de", "cdl_30m_r_de_2016_utm18.tif")
 
 # Initialize the CDL raster
 cdl_raster = GDALRaster(cdl_path)
@@ -58,14 +58,14 @@ tile_size = 250000  # 25 km
 tiles = make_tiles(cdl_raster.x_size, cdl_raster.y_size, tile_size)
 
 # Save tiles
-out_tile = os.path.join("..", "GIS", "tiles", "tile_{}.tif")
+out_tile = os.path.join("GIS", "tiles", "tile_{}.tif")
 for counter, tile in enumerate(tiles):
     print(counter)
     sample = RasterSelection(cdl_raster, *tile)
     sample.write(out_tile.format(counter))
 
 # Make a raster of corn pixels
-corn_raster = os.path.join("..", "GIS", "tiles", "delaware_corn.tif")
+corn_raster = os.path.join("GIS", "tiles", "delaware_corn.tif")
 sample = RasterSelection(cdl_raster)
 sample.array[sample.array != 1] = 0
 sample.write(corn_raster)
