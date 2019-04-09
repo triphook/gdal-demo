@@ -11,7 +11,7 @@ cdl_raster = gdal.Open(cdl_path)
 
 # Get raster geotransform (top_left_x, pixel_width, rotation, top_left_y, rotation, pixel_height)
 left, cell_size, _, top, *_ = cdl_raster.GetGeoTransform()  # north up
-shape = (cdl_raster.RasterXSize * cell_size, cdl_raster.RasterYSize * cell_size)
+shape = np.array([cdl_raster.RasterXSize, cdl_raster.RasterYSize])
 
 # Extract a 3km by 3km piece of the land cover raster as an array
 x_offset = 5000  # 10 km east from the western edge
